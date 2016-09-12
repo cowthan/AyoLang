@@ -1,6 +1,7 @@
 package org.ayo.lang;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Vibrator;
 
 import org.ayo.Ayo;
@@ -16,10 +17,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * common utils, like java.lang
@@ -282,7 +286,29 @@ public class Lang {
 		return mili;
 	}
 
-	
+	public static int randInt(int min, int max) {
+		Random rand = new Random();
+		return rand.nextInt((max - min) + 1) + min;
+	}
+
+	public static boolean isEmailValid(String email) {
+		boolean isValid = false;
+
+		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+		CharSequence inputStr = email;
+
+		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(inputStr);
+		if (matcher.matches()) {
+			isValid = true;
+		}
+		return isValid;
+	}
+
+	public static int getRandomColor() {
+		Random rand = new Random();
+		return Color.argb(100, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+	}
 
 	public static void i_am_cold() {
 		Vibrator v = (Vibrator) Ayo.context
