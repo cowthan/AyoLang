@@ -1,8 +1,21 @@
 # AyoSdk
 常用工具类，java函数糖，安卓函数糖
 
+没整到jcenter上，暂时就用aar包吧，也挺省劲：[下载地址](https://github.com/cowthan/AyoLang/blob/master/ayo-lang.aar?raw=true)  
+下载下来文件名是：ayo-menu-lib-release.aar，拷到libs目录里  
+然后在build.gradle里引入：
+```
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
+compile(name:'ayo-menu-lib-release', ext:'aar')
+```
 
+* 第三方依赖：
+    * fastjson：compile 'com.alibaba:fastjson:1.2.8'，请注意版本
 
 ## 1 初始化
 初始化涉及到的类是Ayo，在Application.onCreate()里
@@ -33,35 +46,6 @@ public class App extends Application{
         Ayo.init(this, "ayo", true, true);
         Ayo.debug = true;
 
-        //初始化AyoView
-        AyoViewLib.init(this);
-
-        //初始化ImageLoader
-        VanGogh.initImageBig(R.drawable.loading_big);
-        VanGogh.initImageMiddle(R.drawable.loading_middle);
-        VanGogh.initImageSmall(R.drawable.loading_small);
-        VanGogh.init(this, Files.path.getPathInRoot2("uil"));
-
-        //初始化全局异常处理
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
-
-        //TODO：初始化数据库
-
-        //TODO：初始化Http库和下载相关
-
-        //TODO: 初始化数据统计
-
-        //TODO: 初始化推送
-
-        //TODO：初始化地图
-
-        //TODO：初始化IM相关
-
-        //TODO：初始化视频相关
-
-
-        //TODO: 其他初始化
     }
 }
 ```
@@ -82,7 +66,7 @@ public class App extends Application{
     * IP地址
 
 这些东西就是所谓的java语法糖，安卓函数糖什么都行，一般都在org.ayo.lang中
-####
+
 
 ### 1 判空系列
 
@@ -275,17 +259,49 @@ Lang.i_am_cold();
 String s = Lang.readThrowable(throwable);
 ```
 
-## 3 日志和崩溃收集
+## 3 Bitmaps工具类
+
+提供了解析图片的基本方法
+
+
+## 4 观察者模式支持
+
+Observable和Observer，以组件形式提供，而非基类形式
+
+```
+///发布者
+protected Observable observable = new Observable();
+public Observable getObservable(){
+    return observable;
+}
+
+///通知订阅者
+getObservable().notifyDataChanged(this, 任意数据);
+
+///订阅者
+v.getObservable().addObserver(new Observer() {
+    @Override
+    public void update(Observable observable, Object src, Object data) {
+        setNotify(data.toString());
+    }
+});
+```
+
+## 5 日志
 
 Lang.log系列
 
 Lang.raise
 
-CrashHandler
 
+## 6 Json支持
 
-## 4 加密解密
+基于fastjson：compile 'com.alibaba:fastjson:1.2.8'
 
+## 7 加密解密
+
+Md5Utils  
+DES
 
 ## 5 file相关
 
