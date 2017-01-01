@@ -2,7 +2,7 @@
 常用工具类，java函数糖，安卓函数糖
 
 没整到jcenter上，暂时就用aar包吧，也挺省劲：[下载地址](https://github.com/cowthan/AyoLang/blob/master/ayo-lang.aar?raw=true)  
-下载下来文件名是：ayo-menu-lib-release.aar，拷到libs目录里  
+下载下来文件名是：ayo-lang.aar，拷到libs目录里  
 然后在build.gradle里引入：
 ```
 repositories {
@@ -11,7 +11,7 @@ repositories {
     }
 }
 
-compile(name:'ayo-menu-lib-release', ext:'aar')
+compile(name:'ayo-lang', ext:'aar')
 ```
 
 * 第三方依赖：
