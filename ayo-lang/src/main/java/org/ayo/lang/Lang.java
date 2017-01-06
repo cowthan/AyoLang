@@ -78,6 +78,20 @@ public class Lang {
 	}
 	
 	//----------------------
+	public static String rstring(int id){
+		return Ayo.context.getResources().getString(id);
+	}
+
+	public static int rcolor(int id){
+		return Ayo.context.getResources().getColor(id);
+	}
+
+	public static float rdimen(int id){
+		return Ayo.context.getResources().getDimension(id);
+	}
+	//------------------------------
+
+
 	/**
 	 * check if ele contains by array, equals method will be called
 	 * array = null, then false
