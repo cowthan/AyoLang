@@ -25,9 +25,6 @@ import java.util.TreeSet;
 
 public class CrashHandler implements UncaughtExceptionHandler {  
 	
-	
-	
-	
     public static final String TAG = "CrashHandler";
     public static final boolean DEBUG = true;
     private static CrashHandler INSTANCE;

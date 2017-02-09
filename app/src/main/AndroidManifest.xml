@@ -7,6 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".App"
         android:theme="@style/AppTheme" >
         <activity android:name=".MainActivity" >
             <intent-filter>
@@ -15,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BugExampleActivity"/>
+        <meta-data android:name="com.bugsnag.android.API_KEY" android:value="c931f4b5170ce026877e38705f3d9191"/>
     </application>
 
 </manifest>

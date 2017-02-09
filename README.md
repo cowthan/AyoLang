@@ -18,21 +18,14 @@ compile(name:'ayo-lang', ext:'aar')
     * fastjson：compile 'com.alibaba:fastjson:1.2.8'，请注意版本
 
 ## 1 初始化
-初始化涉及到的类是Ayo，在Application.onCreate()里
+初始化在Application.onCreate()里
 
 ```java
 package com.cowthan.sample;
 
 import android.app.Application;
-
 import org.ayo.Ayo;
-import org.ayo.CrashHandler;
-import org.ayo.Logger;
-import org.ayo.VanGogh;
 
-/**
- * Created by cowthan on 2016/1/24.
- */
 public class App extends Application{
 
     public static Application app;
@@ -44,8 +37,6 @@ public class App extends Application{
 
         //初始化AyoSDK
         Ayo.init(this, "ayo", true, true);
-        Ayo.debug = true;
-
     }
 }
 ```

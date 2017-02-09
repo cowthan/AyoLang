@@ -3,6 +3,7 @@ package org.ayo;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import org.ayo.jlog.JLog;
 import org.ayo.jlog.constant.JLogLevel;
@@ -106,7 +107,7 @@ public class Ayo {
 	 * @param dirName  "dirName"
 	 * @return  Ayo.ROOT变成了/sd/dirName/
      */
-	public static boolean setSDRoot(String dirName) {
+	private static boolean setSDRoot(String dirName) {
 		if (Lang.isEmpty(dirName)){
 			LogInner.print("sd root: " + "设置失败，路径为空");
 			return false;
@@ -140,5 +141,22 @@ public class Ayo {
 		}
 
 	}
-	
+
+	private static class LogInner {
+
+
+		public static void print(String s){
+			if(Ayo.debug){
+				System.out.println("Genius: " + s);
+			}else{
+
+			}
+		}
+
+		public static void debug(String msg){
+			if(!Ayo.debug) return;
+			if(msg == null) msg = "null";
+			Log.i("sb", msg);
+		}
+	}
 }

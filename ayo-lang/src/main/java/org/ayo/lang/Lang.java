@@ -54,6 +54,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -79,15 +80,19 @@ public class Lang {
 		return (c == null || c.size() == 0);
 	}
 
+	public static boolean isEmpty(Map<?, ?> c) {
+		return (c == null || c.size() == 0);
+	}
+
 	public static boolean isNotEmpty(Collection<?> c) {
 		return !(c == null || c.size() == 0);
 	}
 
-	public static boolean isNull(Object o) {
+	public static boolean isEmpty(Object o) {
 		return o == null;
 	}
 
-	public static boolean isNotNull(Object o) {
+	public static boolean isNotEmpty(Object o) {
 		return o != null;
 	}
 
@@ -119,7 +124,11 @@ public class Lang {
 	public static <T> int count(String s) {
 		return s == null ? 0 : s.length();
 	}
-	
+
+	public static <K, V> int count(Map<K, V> s) {
+		return s == null ? 0 : s.size();
+	}
+
 	//----------------------
 	public static String rstring(int id){
 		return context.getResources().getString(id);
@@ -196,7 +205,7 @@ public class Lang {
             return false;
         if(value == null)
         	return false;
-        return map.containsKey(value);
+        return map.containsValue(value);
     }
 	
 	//----------
@@ -215,7 +224,11 @@ public class Lang {
      * @param s2
      */
     public static boolean equalsIgnoreCase(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equalsIgnoreCase(s2);
+		if (s1 == null || s2 == null) {
+			return false;
+		} else {
+			return s1.equalsIgnoreCase(s2);
+		}
     }
 	
 	/** in case of obj is null **/
@@ -311,11 +324,27 @@ public class Lang {
 		}
 	}
 
+	public static int toInt(String strInt, int defaultValue){
+		try {
+			return Integer.parseInt(strInt);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
 	public static long toLong(String strInt){
 		try {
 			return Long.parseLong(strInt);
 		} catch (Exception e) {
 			return 0;
+		}
+	}
+
+	public static long toLong(String strInt, int defaultValue){
+		try {
+			return Long.parseLong(strInt);
+		} catch (Exception e) {
+			return defaultValue;
 		}
 	}
 	
@@ -324,6 +353,30 @@ public class Lang {
 			return Double.parseDouble(strInt);
 		} catch (Exception e) {
 			return 0;
+		}
+	}
+
+	public static double toDouble(String strInt, int defaultValue){
+		try {
+			return Double.parseDouble(strInt);
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+
+	public static float toFloat(String str){
+		try {
+			return Float.parseFloat(str);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+	public static float toFloat(String str, int defaultValue){
+		try {
+			return Float.parseFloat(str);
+		} catch (Exception e) {
+			return defaultValue;
 		}
 	}
     
@@ -349,9 +402,6 @@ public class Lang {
 		}
 
 	}
-
-	
-
 
 	public static boolean isEmailValid(String email) {
 		boolean isValid = false;
@@ -1141,7 +1191,7 @@ public class Lang {
 			}
 			NetworkInfo localNetworkInfo1 = localConnectivityManager.getNetworkInfo(1);
 			if (localNetworkInfo1.getState() == NetworkInfo.State.CONNECTED) {
-				arrayOfString[0] = "Wi-Fi";
+				arrayOfString[0] = "wifi";
 				return arrayOfString;
 			}
 			NetworkInfo localNetworkInfo2 = localConnectivityManager.getNetworkInfo(0);
@@ -1217,19 +1267,15 @@ public class Lang {
 
 		public static void init(Context context) {
 			statusBarHeight = getStatusBarHeight(context);
-			screenWidth = getScreenWidth((WindowManager) context
-					.getSystemService(Context.WINDOW_SERVICE));
-			screenHeight = getScreenHeight((WindowManager) context
-					.getSystemService(Context.WINDOW_SERVICE));
+			screenWidth = getScreenWidth((WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
+			screenHeight = getScreenHeight((WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
 		}
 
 		private static int getStatusBarHeight(Context context) {
 			int result = 0;
-			int resourceId = context.getResources().getIdentifier(
-					"status_bar_height", "dimen", "android");
+			int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 			if (resourceId > 0) {
-				result = context.getResources().getDimensionPixelSize(
-						resourceId);
+				result = context.getResources().getDimensionPixelSize(resourceId);
 			}
 			return result;
 		}
@@ -1362,6 +1408,18 @@ public class Lang {
 				}
 			}
 		}
+		public static <K, V> void each(Map<K, V> c, OnWalk<Map.Entry<K,V>> callback) {
+			if (callback == null)
+				return;
+			if(c == null || c.size() == 0)
+				return;
+
+			int count = 0;
+			for (Map.Entry<K, V> entry : c.entrySet()) {
+				callback.process(count, entry, c.size());
+				count++;
+			}
+		}
 
 		public static <T> void each(T[] c, OnWalk<T> callback) {
 			if (callback == null)
@@ -1375,25 +1433,42 @@ public class Lang {
 			}
 		}
 
-		public static <T> void remove(List<T> c, OnWalk<T> callback) {
+		public static <T> void remove(Collection<T> c, OnWalk<T> callback) {
 			if (callback == null)
 				return;
-			List<T> list = Lang.collection.clone(c);
-			if (Lang.isNotEmpty(list)) {
-				int count = 0;
-				for (T o : list) {
-					boolean willBeDelete = callback.process(count, o, c.size());
-					count++;
-					if(willBeDelete){
-						c.remove(o);
-					}
-				}
+			if(Lang.isEmpty(c))
+				return;
+			Iterator<T> it = c.iterator();
+			int count = 0;
+			while(it.hasNext()){
+				boolean willBeDelete = callback.process(count, it.next(), c.size());
+				count++;
+				if(willBeDelete) it.remove();
 			}
+//			List<T> list = Lang.collection.clone(c);
+//			if (Lang.isNotEmpty(list)) {
+//				int count = 0;
+//				for (T o : list) {
+//					boolean willBeDelete = callback.process(count, o, c.size());
+//					count++;
+//					if(willBeDelete){
+//						c.remove(o);
+//					}
+//				}
+//			}
 		}
 
-		private void t(){
-			List<String> list;
-
+		public static <K, V> void remove(Map<K, V> c, OnWalk<Map.Entry<K,V>> callback) {
+			if (callback == null)
+				return;
+			if(Lang.isEmpty(c))
+				return;
+			int count = 0;
+			for (Map.Entry<K, V> entry : c.entrySet()) {
+				boolean willBeDeleted = callback.process(count, entry, c.size());
+				count++;
+				if(willBeDeleted) c.remove(entry.getKey());
+			}
 		}
 
 		public static <T> List<T> clone(List<T> c){
@@ -1416,6 +1491,7 @@ public class Lang {
 			return list;
 		}
 
+
 		public static <T> Collection<T> combine(Collection<T> c1,
 												Collection<T> c2) {
 			if (c1 == null && c2 == null)
@@ -1428,7 +1504,7 @@ public class Lang {
 			return c1;
 		}
 
-		public static <K, V> HashMap<K, V> newHashMap(Pair<K, V>...p){
+		public static <K, V> Map<K, V> newHashMap(Pair<K, V>...p){
 			HashMap<K, V> m = new HashMap<K, V>();
 			if(p != null && p.length > 0){
 				for(int i = 0; i < p.length; i++){
@@ -1436,6 +1512,34 @@ public class Lang {
 				}
 			}
 			return m;
+		}
+
+		public static <K, V> Map<K, V> newHashMap(Object...args){
+			Map<K, V> m = new HashMap<K, V>();
+
+			if(args != null && args.length > 0){
+				for(int i = 0; i < args.length; i+=2){
+					int ki = i;
+					int vi = i+1;
+					if(ki < args.length && vi < args.length){
+						K k = (K)args[ki];
+						V v = (V)args[vi];
+						m.put(k, v);
+					}
+				}
+			}
+			return m;
+		}
+
+		public static <K> Set<K> newHashSet(K...args){
+			Set<K> set = new HashSet<>();
+
+			if(args != null && args.length > 0){
+				for(int i = 0; i < args.length; i++){
+					set.add(args[i]);
+				}
+			}
+			return set;
 		}
 	}
 }

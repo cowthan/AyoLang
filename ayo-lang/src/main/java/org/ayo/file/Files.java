@@ -325,7 +325,7 @@ public class Files {
 		 */
 		public static String getContent(String path){
 			try {
-				return getContent(new FileInputStream(Files.path.getFileInRoot(path)));
+				return getContent(new FileInputStream(path));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
