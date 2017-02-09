@@ -1,6 +1,8 @@
 package org.ayo.codec;
 
 
+import android.util.Base64;
+
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -11,9 +13,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import android.util.Base64;
-
-public class DES {
+class DES {
 
 	public DES() {
 	}

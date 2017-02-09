@@ -65,7 +65,7 @@ public class App extends Application{
     * 日期工具类
     * IP地址
 
-这些东西就是所谓的java语法糖，安卓函数糖什么都行，一般都在org.ayo.lang中
+java语法糖，函数糖，一般都在org.ayo.lang中
 
 
 ### 1 判空系列

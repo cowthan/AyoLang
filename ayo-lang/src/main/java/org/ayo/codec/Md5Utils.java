@@ -3,7 +3,7 @@ package org.ayo.codec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Md5Utils {
+class Md5Utils {
 
     private static MessageDigest sMd5MessageDigest;
     private static StringBuilder sStringBuilder;

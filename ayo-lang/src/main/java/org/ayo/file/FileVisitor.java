@@ -1,5 +1,7 @@
 package org.ayo.file;
 
+import android.content.Context;
+
 import org.ayo.Ayo;
 
 import java.io.BufferedWriter;
@@ -12,9 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-
-import android.content.Context;
 
 public class FileVisitor {
 

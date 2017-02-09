@@ -241,34 +241,5 @@ String	EXTRA_INPUT_METHOD_ID
          c.startActivity(it);
    }
     
-    public static void openSystemAlbun(Activity a, int requestCode){
-    	Intent intent = new Intent(Intent.ACTION_PICK, null);
 
-		intent.setDataAndType(
-				MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				"image/*");
-		a.startActivityForResult(intent, requestCode);
-    }
-    
-    public static void openCamera(Activity a, File outFile, int requestCode){
-    	Intent intent = new Intent(
-				MediaStore.ACTION_IMAGE_CAPTURE);
-    	intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outFile));
-		a.startActivityForResult(intent, requestCode);
-    }
-    
-    /**
-	 * @param uri
-	 */
-	public static void openPhotoCrop(Activity a, Uri uri, File outFile, int requestCode) {
-		Intent intent = new Intent("com.android.camera.action.CROP");
-		intent.setDataAndType(uri, "image/*");
-		intent.putExtra("crop", "true");
-		intent.putExtra("aspectX", 1);
-		intent.putExtra("aspectY", 1);
-		intent.putExtra("outputX", 150);
-		intent.putExtra("outputY", 150);
-		intent.putExtra("output", Uri.fromFile(outFile)); // save path
-		a.startActivityForResult(intent, requestCode);
-	}
 }

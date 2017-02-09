@@ -17,7 +17,7 @@ import java.io.Writer;
 public class AyoFiles {
 	
 	public static class io{
-		
+
 		public static void close(InputStream is){
 			try {
 				is.close();
@@ -25,7 +25,7 @@ public class AyoFiles {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public static void close(Reader is){
 			try {
 				is.close();
@@ -33,7 +33,7 @@ public class AyoFiles {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public static void close(BufferedReader is){
 			try {
 				is.close();
@@ -41,7 +41,7 @@ public class AyoFiles {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public static void close(OutputStream is){
 			try {
 				is.close();
@@ -49,7 +49,7 @@ public class AyoFiles {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public static void close(Writer is){
 			try {
 				is.close();
@@ -57,7 +57,7 @@ public class AyoFiles {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public static void close(BufferedWriter is){
 			try {
 				is.close();
@@ -86,7 +86,7 @@ public class AyoFiles {
 		
 	}
 	
-	public static class steam{
+	public static class stream{
 		
 		public static String string(InputStream is){
 			try {
@@ -185,14 +185,7 @@ public class AyoFiles {
 			
 		}
 		
-		public static void output(byte[] content, String path, boolean append){
-			
-		}
-		
-		public static void output(byte[] content, File f, boolean append){
-			
-		}	
-		
+
 	}
 	
 	public static class file{

@@ -235,4 +235,6 @@ public class Bitmaps {
         // Decode bitmap with inSampleSize set
         return BitmapFactory.decodeResource(ctx.getResources(), id, options);
     }
+	
+
 }

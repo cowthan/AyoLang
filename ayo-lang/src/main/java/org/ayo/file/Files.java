@@ -8,6 +8,7 @@ import android.os.Environment;
 
 import org.ayo.Ayo;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,12 +18,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 
 public class Files {
 
 	public static final String PATH_SEP = "/";
-	
-	
+
+
 	/**
 	 * notify the andoid system to refresh the files, because a new file(path) is added
 	 */
@@ -36,7 +39,58 @@ public class Files {
 		}
 		
 	}
-	
+
+	public static class io{
+
+		public static void close(InputStream is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public static void close(Reader is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public static void close(BufferedReader is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public static void close(OutputStream is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public static void close(Writer is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public static void close(BufferedWriter is){
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	
 	public static class path{
 		/** end with /  */

@@ -1,4 +1,4 @@
-package org.ayo.observe;
+package org.ayo.lang;
 
 /**
  * Created by Administrator on 2016/12/17.

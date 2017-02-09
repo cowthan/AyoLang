@@ -20,6 +20,7 @@ public class Ayo {
 	public static String spName = "default.conf";
 	public static boolean debug = true;
 	public static String ROOT;// default work directory
+	public static String ROOT_DIR_NAME;
 	//public static String SERVER_ENCODE = "utf-8";
 
 	/**
@@ -33,13 +34,13 @@ public class Ayo {
 
 	public static int MEM_LEVEL = MEM_LEVEL_JUST_FINE;
 
-	public static boolean init(Context context, boolean openLog){
-		Ayo.context = context;
-		Ayo.debug = openLog;
-		Display.init(context);
-
-		return true;
-	}
+//	public static boolean init(Context context, boolean openLog){
+//		Ayo.context = context;
+//		Ayo.debug = openLog;
+//		Lang.dimen.init(context);
+//
+//		return true;
+//	}
 
 	/**
 	 * init the genius library
@@ -50,8 +51,8 @@ public class Ayo {
 	public static void init(Application context, String path, boolean openLog, boolean logToFile) {
 		Ayo.context = context;
 		Ayo.debug = openLog;
-		Display.init(context);
-		LogInner.print("genius-init: screen（{w}, {h}）".replace("{w}", Display.screenWidth + "").replace("{h}", Display.screenHeight + ""));
+		Lang.dimen.init(context);
+		LogInner.print("genius-init: screen（{w}, {h}）".replace("{w}", Lang.dimen.screenWidth + "").replace("{h}", Lang.dimen.screenHeight + ""));
 		
 		int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 		LogInner.print("genius-init: memory----Max memory is " + maxMemory + "KB");
@@ -100,15 +101,19 @@ public class Ayo {
 				.setCharset("UTF-8");
 	}
 
-	public static boolean setSDRoot(String path) {
-		if (Lang.isEmpty(path)){
+	/**
+	 *
+	 * @param dirName  "dirName"
+	 * @return  Ayo.ROOT变成了/sd/dirName/
+     */
+	public static boolean setSDRoot(String dirName) {
+		if (Lang.isEmpty(dirName)){
 			LogInner.print("sd root: " + "设置失败，路径为空");
 			return false;
 		}
 
-		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
-			Ayo.ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "" + path;
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			Ayo.ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + (dirName.startsWith("/") ? "" : "/") + dirName;
 		} else{
 			LogInner.print("sd root: " + "找不到sd卡");
 			return false;
@@ -117,6 +122,8 @@ public class Ayo {
 		if (!Ayo.ROOT.endsWith("/")) {
 			Ayo.ROOT += "/";
 		}
+
+		Ayo.ROOT_DIR_NAME = dirName.replace("/", "");
 		
 		File dir = new File(Ayo.ROOT);
 		if(dir.exists() && dir.isDirectory()){
